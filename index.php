@@ -1,6 +1,5 @@
 <?php
-$strInFile = file_get_contents('data.txt');
-$dataJSON = json_decode($strInFile);
+$dataJSON = json_decode(file_get_contents('data.json'),true);
 ?>
 
 <html>
@@ -14,14 +13,16 @@ $dataJSON = json_decode($strInFile);
                 <td>ТЕЛЕФОН</td>
             </tr>
             </thead>
-            <?php foreach ($dataJSON as $value) : ?>
+            <?php foreach ($dataJSON as $item) { ?>
             <tr>
-                <td><?=$value -> firstName;?></td>
-                <td><?=$value -> lastName;?></td>
-                <td><?=$value -> address;?></td>
-                <td><?=$value -> phoneNumber;?></td>
+                <td><?php echo $item['firstName'];?></td>
+                <td><?php echo $item['lastName'];?></td>
+                <td><?php echo $item['address']['street'] . ', ' . $item['address']['home'] . ', ' . $item['address']['city'] ;?></td>
+                <?php foreach ($item['phoneNumber'] as $phone) { ?>
+                <td><?php echo $phone  ?></td>
+                <?php }?>
             </tr>
-            <?php endforeach;?>
+            <?php }?>
         </table>
     </body>
 </html>
